@@ -31,9 +31,23 @@ class, i.e. detecting with high precision instances of this class.
 Skope-rules is a trade off between the interpretability of a Decision Tree
 and the modelization power of a Random Forest.
 
-See the `AUTHORS.rst <AUTHORS.rst>`_ file for a list of contributors.
+See the `AUTHORS.rst <AUTHORS.rst>`_ file for a list of original contributors.
 
 .. image:: schema.png
+
+
+Fork
+------------
+
+This package is a fork of [skope-rules])https://github.com/scikit-learn-contrib/skope-rules), which appears to be abandoned. I've made somes changes to [briefly describe changes]. Please note that this fork is not affiliated with the original author. I've taken steps to ensure compatibility and security."
+
+
+Changes
+------------
+- [] Ensure that it could be run on later version of python (>3.9)
+- [] Adding github ci/cd test
+- [] Adding additional features/extractions
+- [] Other enchancement
 
 
 Installation

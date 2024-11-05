@@ -1,6 +1,9 @@
 import numpy as np
 from collections import Counter
-from collections.abc import Iterable
+try:
+    from collections.abc import Iterable  # Python 3.10+
+except ImportError:
+    from collections import Iterable  # Python <3.9
 import pandas
 import numbers
 from warnings import warn

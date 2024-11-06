@@ -1,24 +1,3 @@
-.. -*- mode: rst -*-
-
-|Travis|_  |Coveralls|_ |CircleCI|_ |Python27|_ |Python35|_
-
-.. |Travis| image:: https://api.travis-ci.org/skope-rules/skope-rules.svg?branch=master
-.. _Travis: https://travis-ci.org/skope-rules/skope-rules
-
-.. |Coveralls| image:: https://coveralls.io/repos/github/skope-rules/skope-rules/badge.svg?branch=master
-.. _Coveralls: https://coveralls.io/github/skope-rules/skope-rules?branch=master
-
-.. |CircleCI| image:: https://circleci.com/gh/skope-rules/skope-rules/tree/master.svg?style=shield&circle-token=:circle-token
-.. _CircleCI: https://circleci.com/gh/skope-rules/skope-rules
-
-.. |Python27| image:: https://img.shields.io/badge/python-2.7-blue.svg
-.. _Python27: https://badge.fury.io/py/skope-rules
-
-.. |Python35| image:: https://img.shields.io/badge/python-3.5-blue.svg
-.. _Python35: https://badge.fury.io/py/skope-rules
-
-.. image:: logo.png
-
 skope-rules
 ===========
 
@@ -33,21 +12,22 @@ and the modelization power of a Random Forest.
 
 See the `AUTHORS.rst <AUTHORS.rst>`_ file for a list of original contributors.
 
-.. image:: schema.png
+.. image:: assets/schema.png
 
 
 Fork
 ------------
 
-This package is a fork of [skope-rules])https://github.com/scikit-learn-contrib/skope-rules), which appears to be abandoned. I've made somes changes to [briefly describe changes]. Please note that this fork is not affiliated with the original author. I've taken steps to ensure compatibility and security."
+This package is a fork of [skope-rules])https://github.com/scikit-learn-contrib/skope-rules), which appears to be abandoned. I've made somes changes (Describe in changes section). Please note that this fork is not affiliated with the original author. I've taken steps to ensure compatibility and security."
 
 
 Changes
 ------------
-- [] Ensure that it could be run on later version of python (>3.9)
-- [] Adding github ci/cd test
-- [] Adding additional features/extractions
-- [] Other enchancement
+- Ensure that it could be run on later version of python (>3.9)
+- Adding github ci/cd test
+- Adding additional features/extractions
+- Adding uv
+- Other enchancement
 
 
 Installation

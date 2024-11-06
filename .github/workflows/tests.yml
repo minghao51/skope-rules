@@ -26,6 +26,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -e .
+      
+      - name: Debug
+        run: |
+          python --version
+          pip --version
+          pytest --version
+          python -c "import sys; print(sys.executable)"
 
       - name: Run tests
         run: |

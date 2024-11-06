@@ -5,7 +5,7 @@ Testing for SkopeRules algorithm (skrules.skope_rules).
 import numpy as np
 import pytest
 from sklearn.model_selection import ParameterGrid
-from sklearn.datasets import load_iris, load_boston, make_blobs
+from sklearn.datasets import load_iris, make_blobs
 from sklearn.metrics import accuracy_score
 from sklearn.utils import check_random_state
 from skrules import SkopeRules
@@ -18,14 +18,6 @@ iris = load_iris()
 perm = rng.permutation(iris.target.size)
 iris.data = iris.data[perm]
 iris.target = iris.target[perm]
-
-# also load the boston dataset
-# and randomly permute it
-boston = load_boston()
-perm = rng.permutation(boston.target.size)
-boston.data = boston.data[perm]
-boston.target = boston.target[perm]
-
 
 def test_skope_rules():
     """Check various parameter settings."""

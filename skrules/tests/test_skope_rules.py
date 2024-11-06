@@ -36,7 +36,7 @@ def test_skope_rules():
         "bootstrap": [True, False],
         "bootstrap_features": [True, False],
         "max_depth": [2],
-        "max_features": ["auto", 1, 0.1],
+        "max_features": ["sqrt", 1, 0.1],
         "min_samples_split": [2, 0.1],
         "n_jobs": [-1, 2]})
 
@@ -71,16 +71,39 @@ def test_skope_rules_error():
         SkopeRules(max_samples=1000).fit(X, y)
 
     # explicitly setting max_samples > n_samples should result in a warning.
-    assert_raises(ValueError, SkopeRules(max_samples=np.int64(2)).fit, X, y)
-    assert_raises(ValueError, SkopeRules(max_samples='foobar').fit, X, y)
-    assert_raises(ValueError, SkopeRules(max_samples=1.5).fit, X, y)
-    assert_raises(ValueError, SkopeRules(max_depth_duplication=1.5).fit, X, y)
-    assert_raises(ValueError, SkopeRules().fit(X, y).predict, X[:, 1:])
-    assert_raises(ValueError, SkopeRules().fit(X, y).decision_function,
-                  X[:, 1:])
-    assert_raises(ValueError, SkopeRules().fit(X, y).rules_vote, X[:, 1:])
-    assert_raises(ValueError, SkopeRules().fit(X, y).score_top_rules,
-                  X[:, 1:])
+    @pytest.mark.parametrize("max_samples", [int(2), 'foobar', 1.5])
+    def test_skope_rules_max_samples_validation(max_samples, X, y):
+        with pytest.raises(ValueError):
+            SkopeRules(max_samples=max_samples).fit(X, y)
+
+
+    def test_skope_rules_max_depth_duplication_validation(X, y):
+        with pytest.raises(ValueError):
+            SkopeRules(max_depth_duplication=1.5).fit(X, y)
+
+
+    def test_skope_rules_predict_validation(X, y):
+        model = SkopeRules().fit(X, y)
+        with pytest.raises(ValueError):
+            model.predict(X[:, 1:])
+
+
+    def test_skope_rules_decision_function_validation(X, y):
+        model = SkopeRules().fit(X, y)
+        with pytest.raises(ValueError):
+            model.decision_function(X[:, 1:])
+
+
+    def test_skope_rules_rules_vote_validation(X, y):
+        model = SkopeRules().fit(X, y)
+        with pytest.raises(ValueError):
+            model.rules_vote(X[:, 1:])
+
+
+    def test_skope_rules_score_top_rules_validation(X, y):
+        model = SkopeRules().fit(X, y)
+        with pytest.raises(ValueError):
+            model.score_top_rules(X[:, 1:])
 
 
 def test_max_samples_attribute():
@@ -88,18 +111,19 @@ def test_max_samples_attribute():
     y = iris.target
     y = (y != 0)
 
-    clf = SkopeRules(max_samples=1.).fit(X, y)
-    assert clf.max_samples_ == X.shape[0]
-
-    clf = SkopeRules(max_samples=500)
-    assert_warns_message(UserWarning,
-                         "max_samples will be set to n_samples for estimation",
-                         clf.fit, X, y)
-    assert clf.max_samples_ == X.shape[0]
-
+    # Test max_samples as float (proportion)
     clf = SkopeRules(max_samples=0.4).fit(X, y)
-    assert clf.max_samples_ == 0.4*X.shape[0]
+    assert clf.max_samples_ == int(0.4 * X.shape[0])
 
+    # Test max_samples as integer (exact value)
+    clf = SkopeRules(max_samples=500).fit(X, y)
+    with pytest.warns(UserWarning, match=r"max_samples will be set to n_samples for estimation"):
+        clf.fit(X, y)
+    assert clf.max_samples_ == X.shape[0]
+
+    # Test max_samples as invalid value (set to n_samples)
+    clf = SkopeRules(max_samples=1.)
+    assert clf.max_samples_ == X.shape[0]
 
 def test_skope_rules_works():
     # toy sample (the last two samples are outliers)
@@ -163,7 +187,7 @@ def test_performances():
     # decision_function agrees with predict
     decision = -clf.decision_function(X)
     assert decision.shape == (n_samples,)
-    dec_pred = (decision.ravel() < 0).astype(np.int)
+    dec_pred = (decision.ravel() < 0).astype(int)
     assert np.array_equal(dec_pred, y_pred)
 
 

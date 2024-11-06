@@ -5,3 +5,4 @@ scipy
 # numpydoc
 # sphinx_gallery
 pytest
+xlrd

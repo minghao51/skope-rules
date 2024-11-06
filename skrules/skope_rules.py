@@ -19,7 +19,7 @@ from sklearn.tree import _tree
 
 from .rule import Rule, replace_feature_name
 
-INTEGER_TYPES = (numbers.Integral, np.integer)
+INTEGER_TYPES = (numbers.Integral, int)
 BASE_FEATURE_NAME = "__C__"
 
 
@@ -272,7 +272,7 @@ class SkopeRules(BaseEstimator):
 
         for max_depth in self._max_depths:
             bagging_clf = BaggingClassifier(
-                base_estimator=DecisionTreeClassifier(
+                estimator=DecisionTreeClassifier(
                     max_depth=max_depth,
                     max_features=self.max_features,
                     min_samples_split=self.min_samples_split),
@@ -289,7 +289,7 @@ class SkopeRules(BaseEstimator):
                 verbose=self.verbose)
 
             bagging_reg = BaggingRegressor(
-                base_estimator=DecisionTreeRegressor(
+                estimator=DecisionTreeRegressor(
                     max_depth=max_depth,
                     max_features=self.max_features,
                     min_samples_split=self.min_samples_split),
@@ -618,6 +618,8 @@ class SkopeRules(BaseEstimator):
         return rules if len(rules) > 0 else 'True'
 
     def _eval_rule_perf(self, rule, X, y):
+        # print(rule)
+        # print(dtypes(rule))
         detected_index = list(X.query(rule).index)
         if len(detected_index) <= 1:
             return (0, 0)
